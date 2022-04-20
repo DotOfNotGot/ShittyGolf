@@ -10,6 +10,9 @@ public class BallController : MonoBehaviour
 
     [SerializeField]
     private float maxForce;
+    [SerializeField]
+    private float maxLobForce;
+    [SerializeField]
     private float actualForce = 0.1f;
     [SerializeField]
     private float rotationSpeed;
@@ -31,13 +34,18 @@ public class BallController : MonoBehaviour
     private bool isTurningRight;
     private bool shootInput;
     private bool shootTime;
+    [SerializeField]
     private bool shouldAdd;
+    [SerializeField]
     private bool shouldLob;
 
     private LineProjection lineProjection;
     [SerializeField]
     private BallController ballPrefab;
     private BallLineRendererPosition lineStartPosition;
+
+    [SerializeField]
+    private float lobAngle;
 
     private Vector3 oldEulerAngles;
     private Vector3 oldTransformPosition;
@@ -57,7 +65,7 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!win)
+        if (!win && oldTransformPosition == transform.position)
         {
             if (isTurningLeft)
             {
@@ -70,7 +78,7 @@ public class BallController : MonoBehaviour
 
             if (shouldLob)
             {
-                transform.rotation = Quaternion.Euler(-45, direction.y, direction.z);
+                transform.rotation = Quaternion.Euler(-lobAngle, direction.y, direction.z);
             }
             else
             {
@@ -80,36 +88,70 @@ public class BallController : MonoBehaviour
 
             BallShoot();
         }
-        
-        
+        if (oldEulerAngles != transform.rotation.eulerAngles)
+        {
+            oldEulerAngles = transform.rotation.eulerAngles;
+        }
+        if (oldTransformPosition != transform.position)
+        {
+            oldTransformPosition = transform.position;
+        }
+
     }
 
     public void BallShoot()
     {
+        float forceDivider = 50f;
+
         if (shootInput)
         {
-            if (shouldAdd)
+            if (shouldAdd && !shouldLob)
             {
-                actualForce += 0.5f;
+                actualForce += maxForce / forceDivider;
             }
-            else
+            else if(!shouldAdd && !shouldLob)
             {
-                actualForce -= 0.5f;
+                actualForce -= maxForce / forceDivider;
             }
-            
+
+            if (shouldAdd && shouldLob)
+            {
+                actualForce += maxLobForce / forceDivider;
+
+            }
+            else if (!shouldAdd && shouldLob)
+            {
+                actualForce += maxLobForce / forceDivider;
+            }
+
         }
 
-        if (actualForce >= maxForce && shouldAdd)
+        if (actualForce >= maxForce && shouldAdd && !shouldLob)
         {
             shouldAdd = false;
         }
-        else if (actualForce <= 0 && !shouldAdd)
+        else if (actualForce <= 0 && !shouldAdd && !shouldLob)
         {
             shouldAdd = true;
         }
 
-        barFillAmount = actualForce / maxForce;
-        
+        if (actualForce >= maxLobForce && shouldAdd && shouldLob)
+        {
+            shouldAdd = false;
+        }
+        else if (actualForce <= 0 && !shouldAdd && shouldLob)
+        {
+            shouldAdd = true;
+        }
+
+        if (!shouldLob)
+        {
+            barFillAmount = actualForce / maxForce;
+        }
+        if (shouldLob)
+        {
+            barFillAmount = actualForce / maxLobForce;
+        }
 
         if (shootTime)
         {
@@ -124,21 +166,21 @@ public class BallController : MonoBehaviour
         if (oldTransformPosition == transform.position)
         {
             lineProjection.gameObject.GetComponent<LineRenderer>().enabled = true;
-            lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * maxForce);
+            if (!shouldLob)
+            {
+                lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * maxForce);
+            }
+            if (shouldLob)
+            {
+                lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * maxLobForce);
+            }
         }
         else if(oldTransformPosition != transform.position)
         {
             lineProjection.gameObject.GetComponent<LineRenderer>().enabled = false;
         }
 
-        if (oldEulerAngles != transform.rotation.eulerAngles)
-        {
-            oldEulerAngles = transform.rotation.eulerAngles;
-        }
-        if (oldTransformPosition != transform.position)
-        {
-            oldTransformPosition = transform.position;
-        }
+        
 
     }
 

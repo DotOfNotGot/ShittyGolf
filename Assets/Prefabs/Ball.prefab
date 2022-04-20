@@ -398,6 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 35
+  maxLobForce: 20
   rotationSpeed: 5
   barFillAmount: 0
   playerIndex: 0
@@ -405,6 +406,7 @@ MonoBehaviour:
   isTurningLeft: 0
   isTurningRight: 0
   ballPrefab: {fileID: 9018353639588637972}
+  lobAngle: 45
 --- !u!114 &4558459346537034411
 MonoBehaviour:
   m_ObjectHideFlags: 0
