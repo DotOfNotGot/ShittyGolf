@@ -5,9 +5,12 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 
-    private BallController ballController;
+    private GameManager gameManager;
+
+    private List<BallController> ballControllers;
 
     private Transform ballTransform;
+    private Vector3 cameraNextPosition;
 
     [SerializeField]
     private float xOffset;
@@ -19,14 +22,15 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ballController = FindObjectOfType<BallController>();
-        ballTransform = ballController.transform;
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = new Vector3(ballTransform.position.x + xOffset, ballTransform.position.y + yOffset, ballTransform.position.z - zOffset);
-        
+        ballTransform = gameManager.ballControllers[gameManager.currentTurnIndex].transform;
+        cameraNextPosition = new Vector3(ballTransform.position.x + xOffset, ballTransform.position.y + yOffset, ballTransform.position.z - zOffset);
+
+        transform.position = Vector3.Lerp(transform.position, cameraNextPosition, Time.deltaTime);
     }
 }

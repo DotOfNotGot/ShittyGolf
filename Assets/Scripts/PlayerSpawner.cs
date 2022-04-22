@@ -17,7 +17,10 @@ public class PlayerSpawner : MonoBehaviour
         if (gameObject.scene != SceneManager.GetSceneByName("Simulation"))
         {
             Instantiate(ballPrefab, transform.position, Quaternion.identity);
-            Instantiate(ballLineRendererPrefab, transform.position, Quaternion.identity);
+            if (FindObjectOfType<LineProjection>() == null)
+            {
+                Instantiate(ballLineRendererPrefab, transform.position, Quaternion.identity);
+            }
         }
     }
 

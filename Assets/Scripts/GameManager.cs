@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private List<BallController> ballControllers;
+    public List<BallController> ballControllers;
 
     private int assignedIndex;
+
+    public int currentTurnIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,19 @@ public class GameManager : MonoBehaviour
             ballController.playerIndex = assignedIndex;
             assignedIndex++;
         }
+    }
+
+    public void TurnHandler(int currentIndex)
+    {
+        if (currentIndex + 1 != ballControllers.Count)
+        {
+            currentTurnIndex = currentIndex + 1;
+        }
+        else
+        {
+            currentTurnIndex = 0;
+        }
+        
     }
 
 

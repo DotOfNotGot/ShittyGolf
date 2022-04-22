@@ -38,6 +38,8 @@ public class BallController : MonoBehaviour
     private bool shouldAdd;
     [SerializeField]
     private bool shouldLob;
+    private bool shouldSwitchTurn;
+
 
     private LineProjection lineProjection;
     [SerializeField]
@@ -49,6 +51,7 @@ public class BallController : MonoBehaviour
 
     private Vector3 oldEulerAngles;
     private Vector3 oldTransformPosition;
+
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +68,7 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!win && oldTransformPosition == transform.position)
+        if (!win && oldTransformPosition == transform.position && gameManager.currentTurnIndex == playerIndex)
         {
             if (isTurningLeft)
             {
@@ -85,8 +88,13 @@ public class BallController : MonoBehaviour
                 transform.rotation = Quaternion.Euler(direction);
             }
 
-
+            if (shouldSwitchTurn)
+            {
+                gameManager.TurnHandler(playerIndex);
+                shouldSwitchTurn = false;
+            }
             BallShoot();
+            
         }
         if (oldEulerAngles != transform.rotation.eulerAngles)
         {
@@ -159,6 +167,7 @@ public class BallController : MonoBehaviour
             ballRb.velocity = transform.forward * actualForce;
             actualForce = 0.1f;
             shootTime = false;
+            shouldSwitchTurn = true;
         }
 
         // Trajectory line, checks if player is currently moving and if not renders a trajectoryline to show where player would go at the maxforce of their shot.
@@ -180,9 +189,9 @@ public class BallController : MonoBehaviour
             lineProjection.gameObject.GetComponent<LineRenderer>().enabled = false;
         }
 
-        
-
     }
+
+    
 
     public void BallShootSimulation(Vector3 velocity)
     {
@@ -223,14 +232,17 @@ public class BallController : MonoBehaviour
 
     public void ShootButton(CallbackContext context)
     {
-        if (context.started && shootInput)
+        if (gameManager.currentTurnIndex == playerIndex)
         {
-            shootTime = true;
-            shootInput = false;
-        }
-        else if (context.started && !shootInput)
-        {
-            shootInput = true;
+            if (context.started && shootInput)
+            {
+                shootTime = true;
+                shootInput = false;
+            }
+            else if (context.started && !shootInput)
+            {
+                shootInput = true;
+            }
         }
     }
 
