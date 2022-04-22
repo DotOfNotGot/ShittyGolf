@@ -383,7 +383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 425105656258227040, guid: 1c57fb9de82e648439e35e21f45ebeac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -257.131
+      value: -195.1
       objectReference: {fileID: 0}
     - target: {fileID: 425105656258227040, guid: 1c57fb9de82e648439e35e21f45ebeac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -556,7 +556,7 @@ MonoBehaviour:
   targetScreenSize:
     width: 256
     height: 144
-  screenScaleFactor: 2
+  screenScaleFactor: 0
   display: {fileID: 2110373839}
 --- !u!114 &963194231
 MonoBehaviour:
@@ -1200,6 +1200,18 @@ PrefabInstance:
     - target: {fileID: 6672999146839859480, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672999146839859480, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672999146839859480, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672999146839859480, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6672999146839859480, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
       propertyPath: m_LocalPosition.x
