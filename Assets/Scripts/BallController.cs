@@ -21,6 +21,7 @@ public class BallController : MonoBehaviour
     private GameManager gameManager;
 
     public float barFillAmount;
+    private Canvas forceBarCanvas;
 
     public int playerIndex;
 
@@ -56,6 +57,8 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        forceBarCanvas = GetComponentInChildren<Canvas>();
+        forceBarCanvas.enabled = false;
         oldEulerAngles = transform.rotation.eulerAngles;
         oldTransformPosition = transform.position;
         ballRb = GetComponent<Rigidbody>();
@@ -104,7 +107,10 @@ public class BallController : MonoBehaviour
         {
             oldTransformPosition = transform.position;
         }
-
+        else if (gameManager.currentTurnIndex != playerIndex)
+        {
+            forceBarCanvas.enabled = false;
+        }
     }
 
     public void BallShoot()
@@ -113,6 +119,7 @@ public class BallController : MonoBehaviour
 
         if (shootInput)
         {
+            forceBarCanvas.enabled = true;
             if (shouldAdd && !shouldLob)
             {
                 actualForce += maxForce / forceDivider;

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private int assignedIndex;
 
     public int currentTurnIndex;
+    public int previousFrameTurnIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -27,10 +28,12 @@ public class GameManager : MonoBehaviour
     {
         if (currentIndex + 1 != ballControllers.Count)
         {
+            previousFrameTurnIndex = currentTurnIndex;
             currentTurnIndex = currentIndex + 1;
         }
         else
         {
+            previousFrameTurnIndex = currentTurnIndex;
             currentTurnIndex = 0;
         }
         
