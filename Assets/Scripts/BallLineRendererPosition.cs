@@ -8,21 +8,25 @@ public class BallLineRendererPosition : MonoBehaviour
     private List<BallController> ballControllers;
 
     private GameManager gameManager;
+    private MainMenuHandler mainMenuHandler;
+    private PlayerSpawner playerSpawner;
 
     // Start is called before the first frame update
     void Start()
     {
         ballControllers = new List<BallController>(FindObjectsOfType<BallController>());
         gameManager = FindObjectOfType<GameManager>();
+        mainMenuHandler = FindObjectOfType<MainMenuHandler>();
+        playerSpawner = FindObjectOfType<PlayerSpawner>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ballControllers[gameManager.currentTurnIndex] != null)
+        if (playerSpawner.ballGOs[gameManager.currentTurnIndex] != null)
         {
-            transform.position = ballControllers[gameManager.currentTurnIndex].transform.position;
-            transform.rotation = ballControllers[gameManager.currentTurnIndex].transform.rotation;
+            transform.position = playerSpawner.ballGOs[gameManager.currentTurnIndex].transform.position;
+            transform.rotation = playerSpawner.ballGOs[gameManager.currentTurnIndex].transform.rotation;
         }
     }
 }

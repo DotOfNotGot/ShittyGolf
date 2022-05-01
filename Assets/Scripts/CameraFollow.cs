@@ -6,12 +6,16 @@ public class CameraFollow : MonoBehaviour
 {
 
     private GameManager gameManager;
+    private PlayerSpawner playerSpawner;
 
-    private List<BallController> ballControllers;
     private BallController currentBallController;
+
+    [SerializeField]
+    private bool shouldLerp;
 
     private Transform ballTransform;
     private Vector3 cameraNextPosition;
+    private Vector3 oldCameraPosition;
 
     [SerializeField]
     private float waitTime;
@@ -27,6 +31,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        playerSpawner = FindObjectOfType<PlayerSpawner>();
     }
 
     // Update is called once per frame
@@ -34,7 +39,7 @@ public class CameraFollow : MonoBehaviour
     {
         if (currentBallController == null)
         {
-            currentBallController = gameManager.ballControllers[gameManager.currentTurnIndex];
+            currentBallController = playerSpawner.ballGOs[gameManager.currentTurnIndex].GetComponent<BallController>();
         }
 
 
@@ -47,15 +52,27 @@ public class CameraFollow : MonoBehaviour
 
         cameraNextPosition = new Vector3(ballTransform.position.x + xOffset, ballTransform.position.y + yOffset, ballTransform.position.z - zOffset);
 
-        transform.position = Vector3.Lerp(transform.position, cameraNextPosition, Time.deltaTime);
+        if (shouldLerp)
+        {
+            transform.position = Vector3.Lerp(transform.position, cameraNextPosition, Time.deltaTime);
+        }
+        else
+        {
+            transform.position = cameraNextPosition;
+        }
 
-        
+        if (transform.position == oldCameraPosition)
+        {
+            shouldLerp = false;
+        }
+        oldCameraPosition = transform.position;
     }
 
     private IEnumerator UpdateFollowTarget()
     {
        yield return new WaitForSeconds(waitTime);
-       currentBallController = gameManager.ballControllers[gameManager.currentTurnIndex];
+       currentBallController = playerSpawner.ballGOs[gameManager.currentTurnIndex].GetComponent<BallController>();
+       shouldLerp = true;
     }
 
 }

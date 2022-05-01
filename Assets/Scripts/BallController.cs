@@ -65,6 +65,12 @@ public class BallController : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         lineProjection = FindObjectOfType<LineProjection>();
         lineStartPosition = FindObjectOfType<BallLineRendererPosition>();
+
+        if (FindObjectsOfType<BallController>().Length > 1)
+        {
+            playerIndex = 1;
+        }
+
     }
 
 
@@ -179,7 +185,7 @@ public class BallController : MonoBehaviour
 
         // Trajectory line, checks if player is currently moving and if not renders a trajectoryline to show where player would go at the maxforce of their shot.
 
-        if (oldTransformPosition == transform.position)
+        if (oldTransformPosition == transform.position && !shouldSwitchTurn)
         {
             lineProjection.gameObject.GetComponent<LineRenderer>().enabled = true;
             if (!shouldLob)
@@ -191,7 +197,7 @@ public class BallController : MonoBehaviour
                 lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * maxLobForce);
             }
         }
-        else if(oldTransformPosition != transform.position)
+        else if(oldTransformPosition != transform.position || shouldSwitchTurn)
         {
             lineProjection.gameObject.GetComponent<LineRenderer>().enabled = false;
         }
@@ -266,19 +272,6 @@ public class BallController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.tag == "Hole")
-        {
-            ballRb.useGravity = false;
-            ballRb.velocity = new Vector3(0, 0, 0);
-
-            win = true;
-
-            gameManager.PlayerWon(playerIndex);
-        }
-
-    }
+    
 
 }

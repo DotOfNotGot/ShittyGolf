@@ -11,16 +11,50 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField]
     private GameObject ballLineRendererPrefab;
 
+    public List<GameObject> ballGOs;
+
+
+    private MainMenuHandler mainMenuHandler;
+
+    private GameManager gameManager;
+
+    private bool shouldSpawn;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (gameObject.scene != SceneManager.GetSceneByName("Simulation"))
+
+        mainMenuHandler = FindObjectOfType<MainMenuHandler>();
+
+        gameManager = FindObjectOfType<GameManager>();
+
+        if (mainMenuHandler.mode == 1)
         {
-            Instantiate(ballPrefab, transform.position, Quaternion.identity);
-            if (FindObjectOfType<LineProjection>() == null)
-            {
-                Instantiate(ballLineRendererPrefab, transform.position, Quaternion.identity);
-            }
+            GameObject newBall = (GameObject)Instantiate(ballPrefab, transform.position, Quaternion.identity);
+            ballGOs.Add(newBall);
+            shouldSpawn = false;
+        }
+        else if (mainMenuHandler.mode == 2)
+        {
+            GameObject newBall = (GameObject)Instantiate(ballPrefab, transform.position, Quaternion.identity);
+            ballGOs.Add(newBall);
+            shouldSpawn = true;
+        }
+        
+        if (FindObjectOfType<LineProjection>() == null)
+        {
+            Instantiate(ballLineRendererPrefab, transform.position, Quaternion.identity);
+        }
+
+    }
+
+    private void Update()
+    {
+        if (shouldSpawn && gameManager.currentTurnIndex == 1)
+        {
+            GameObject newBall = (GameObject)Instantiate(ballPrefab, transform.position, Quaternion.identity);
+            ballGOs.Add(newBall);
+            shouldSpawn = false;
         }
     }
 
