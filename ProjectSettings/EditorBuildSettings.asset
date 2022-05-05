@@ -11,8 +11,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TransitionScene.unity
     guid: 557b263256feb1f4b954a3f9c1459f75
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Stage 1.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Stage 2.unity
+    guid: 545d7b3f8826a6b43ae5a9642416cff0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 15e9d4a85a383904698deb6d3a33a2d8, type: 2}

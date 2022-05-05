@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 public class BallController : MonoBehaviour
@@ -77,6 +78,7 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
         if (!win && oldTransformPosition == transform.position && gameManager.currentTurnIndex == playerIndex)
         {
             if (isTurningLeft)
@@ -270,8 +272,4 @@ public class BallController : MonoBehaviour
             shouldLob = true;
         }
     }
-
-
-    
-
 }

@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 6672999146639407406}
   - component: {fileID: 6672999146639407401}
   - component: {fileID: 7080981085833317794}
-  - component: {fileID: 2552833562839067151}
+  - component: {fileID: 7452884471784827435}
   m_Layer: 10
   m_Name: Hole Mask
   m_TagString: Untagged
@@ -139,7 +139,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6672999146639407403}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.095, z: 0}
+  m_LocalPosition: {x: 0, y: -0.09, z: 0}
   m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -210,8 +210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerOnTriggerEnter: 11
   layerOnTriggerExit: 8
---- !u!135 &2552833562839067151
-SphereCollider:
+--- !u!65 &7452884471784827435
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -221,8 +221,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.8546484, y: 15.833235, z: 0.8833168}
+  m_Center: {x: 0.008589625, y: -6.673255, z: 0.006151676}
 --- !u!1 &6672999146839859482
 GameObject:
   m_ObjectHideFlags: 0
