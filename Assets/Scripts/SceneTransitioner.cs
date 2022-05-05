@@ -6,31 +6,37 @@ using UnityEngine.SceneManagement;
 public class SceneTransitioner : MonoBehaviour
 {
     [SerializeField]
-    private int sceneIndex;
+    private SceneIndex sceneIndex;
 
     private bool shouldTransition;
 
     [SerializeField]
     private int framesInScene;
-
-    private void Update()
+    private void FixedUpdate()
     {
-        if (shouldTransition)
-        {
-            shouldTransition = false;
-            SceneManager.LoadScene(sceneIndex);
-            sceneIndex++;
-        }
 
         if (framesInScene > 100)
         {
             shouldTransition = true;
         }
 
-    }
+        if (shouldTransition)
+        {
+            shouldTransition = false;
+            
+            if (SceneManager.sceneCount < sceneIndex._SceneIndex)
+            {
+                sceneIndex._SceneIndex++;
+            }
+            else
+            {
+                sceneIndex._SceneIndex = 0;
+            }
 
-    private void FixedUpdate()
-    {
+            SceneManager.LoadScene(sceneIndex._SceneIndex);
+
+        }
+
         framesInScene++;
     }
 

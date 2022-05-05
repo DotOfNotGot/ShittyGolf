@@ -50,7 +50,7 @@ MonoBehaviour:
   simulationScene:
     m_Handle: 0
   line: {fileID: 3368179153411106567}
-  maxPhysicsFrameIterations: 100
+  maxPhysicsFrameIterations: 20
 --- !u!120 &3368179153411106567
 LineRenderer:
   m_ObjectHideFlags: 0
