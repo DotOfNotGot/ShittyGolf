@@ -5,21 +5,28 @@ using UnityEngine;
 public class BallLineRendererPosition : MonoBehaviour
 {
 
-    private BallController ballController;
+    private List<BallController> ballControllers;
+
+    private GameManager gameManager;
+    private MainMenuHandler mainMenuHandler;
+    private PlayerSpawner playerSpawner;
 
     // Start is called before the first frame update
     void Start()
     {
-        ballController = FindObjectOfType<BallController>();
+        ballControllers = new List<BallController>(FindObjectsOfType<BallController>());
+        gameManager = FindObjectOfType<GameManager>();
+        mainMenuHandler = FindObjectOfType<MainMenuHandler>();
+        playerSpawner = FindObjectOfType<PlayerSpawner>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ballController != null)
+        if (playerSpawner.ballGOs[gameManager.currentTurnIndex] != null)
         {
-            transform.position = ballController.transform.position;
-            transform.rotation = ballController.transform.rotation;
+            transform.position = playerSpawner.ballGOs[gameManager.currentTurnIndex].transform.position;
+            transform.rotation = playerSpawner.ballGOs[gameManager.currentTurnIndex].transform.rotation;
         }
     }
 }

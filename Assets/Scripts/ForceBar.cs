@@ -20,8 +20,6 @@ public class ForceBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         forceBar.fillAmount = ballController.barFillAmount;
-
     }
 }

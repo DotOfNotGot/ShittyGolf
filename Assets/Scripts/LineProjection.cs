@@ -4,25 +4,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LineProjection : MonoBehaviour
 {
-    private Scene simulationScene;
+    public Scene simulationScene;
     private PhysicsScene physicsScene;
 
     private Transform objectsParent;
 
     [SerializeField]
     private LineRenderer line;
-    [SerializeField]
-    private int maxPhysicsFrameIterations;
+    public int maxPhysicsFrameIterations;
+
+
 
     private void Start()
     {
-
         objectsParent = GameObject.FindGameObjectWithTag("StageParent").transform;
-
         CreatePhysicsScene();
     }
 
-    private void CreatePhysicsScene()
+    public void CreatePhysicsScene()
     {
         simulationScene = SceneManager.CreateScene("Simulation", new CreateSceneParameters(LocalPhysicsMode.Physics3D));
         physicsScene = simulationScene.GetPhysicsScene();
@@ -38,8 +37,19 @@ public class LineProjection : MonoBehaviour
 
     public void SimulateTrajectory(BallController ballPrefab, Vector3 pos, Vector3 velocity)
     {
-        var ghostObj = Instantiate(ballPrefab, pos, Quaternion.identity);
-        SceneManager.MoveGameObjectToScene(ghostObj.gameObject, simulationScene);
+        var ghostObj = ObjectPool.SharedInstance.GetPooledObject().GetComponent<BallController>();
+
+        if (ghostObj != null)
+        {
+            ghostObj.gameObject.SetActive(true);
+            ghostObj.transform.position = pos;
+            ghostObj.transform.rotation = Quaternion.identity;
+            SceneManager.MoveGameObjectToScene(ghostObj.gameObject, simulationScene);
+        }
+        else
+        {
+            return;
+        }
 
         ghostObj.BallShootSimulation(velocity);
 
@@ -49,9 +59,14 @@ public class LineProjection : MonoBehaviour
         {
             physicsScene.Simulate(Time.fixedDeltaTime);
             line.SetPosition(i, ghostObj.transform.position);
+            
         }
 
-        Destroy(ghostObj.gameObject);
+        ghostObj.gameObject.SetActive(false);
+        ghostObj.transform.position = pos;
+        ghostObj.transform.rotation = Quaternion.identity;
+        ghostObj.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
     }
 
 }
