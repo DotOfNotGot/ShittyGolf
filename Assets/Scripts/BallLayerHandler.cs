@@ -26,6 +26,4 @@ public class BallLayerHandler : MonoBehaviour
             other.gameObject.layer = layerOnTriggerExit;
     }
 
-
-
 }
