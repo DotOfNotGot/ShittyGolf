@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layerOnTriggerEnter: 11
-  layerOnTriggerExit: 8
+  layerOnTriggerExit: 1
 --- !u!65 &7452884471784827435
 BoxCollider:
   m_ObjectHideFlags: 0
