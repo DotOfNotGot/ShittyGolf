@@ -1,43 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.SceneManagement;
 
 public class SceneTransitioner : MonoBehaviour
 {
     [SerializeField]
-    private SceneIndex sceneIndex;
+    private int sceneIndex;
 
     private bool shouldTransition;
 
-    [SerializeField]
-    private int framesInScene;
     private void FixedUpdate()
     {
-
-        if (framesInScene > 100)
-        {
-            shouldTransition = true;
-        }
 
         if (shouldTransition)
         {
             shouldTransition = false;
-            
-            if (SceneManager.sceneCount < sceneIndex._SceneIndex)
+
+            if (SceneManager.sceneCountInBuildSettings - 1 > sceneIndex)
             {
-                sceneIndex._SceneIndex++;
+                sceneIndex++;
             }
             else
             {
-                sceneIndex._SceneIndex = 0;
+                sceneIndex = 0;
             }
 
-            SceneManager.LoadScene(sceneIndex._SceneIndex);
-
+            SceneManager.LoadScene(sceneIndex);
         }
+    }
 
-        framesInScene++;
+    public void OKButton(CallbackContext context)
+    {
+
+        shouldTransition = true;
     }
 
 }

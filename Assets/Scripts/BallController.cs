@@ -42,6 +42,7 @@ public class BallController : MonoBehaviour
     private bool shouldLob;
     private bool shouldSwitchTurn;
 
+    public Vector3 lastStillPosition;
 
     private LineProjection lineProjection;
     [SerializeField]
@@ -111,6 +112,7 @@ public class BallController : MonoBehaviour
         {
             oldEulerAngles = transform.rotation.eulerAngles;
         }
+
         if (oldTransformPosition != transform.position)
         {
             oldTransformPosition = transform.position;
@@ -185,11 +187,12 @@ public class BallController : MonoBehaviour
             shouldSwitchTurn = true;
         }
 
-        // Trajectory line, checks if player is currently moving and if not renders a trajectoryline to show where player would go at the maxforce of their shot.
+        // Checks if player is currently moving and if not renders a trajectoryline to show where player would go at the maxforce of their shot.
 
         if (oldTransformPosition == transform.position && !shouldSwitchTurn)
         {
             lineProjection.gameObject.GetComponent<LineRenderer>().enabled = true;
+            lastStillPosition = transform.position;
             if (!shouldLob)
             {
                 lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * maxForce);

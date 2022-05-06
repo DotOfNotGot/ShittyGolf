@@ -53,6 +53,15 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OK"",
+                    ""type"": ""Button"",
+                    ""id"": ""7601271b-7151-4d4d-82d4-296cf4f1b19c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +174,28 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""action"": ""LobMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d88a39d9-cae4-4f65-92ee-ed4ed3fc01ae"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OK"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e474cbbb-4338-476e-a6f2-2faf3ae7eaa6"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OK"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -176,6 +207,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         m_Golf_Aim = m_Golf.FindAction("Aim", throwIfNotFound: true);
         m_Golf_Shoot = m_Golf.FindAction("Shoot", throwIfNotFound: true);
         m_Golf_LobMode = m_Golf.FindAction("LobMode", throwIfNotFound: true);
+        m_Golf_OK = m_Golf.FindAction("OK", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,6 +270,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Golf_Aim;
     private readonly InputAction m_Golf_Shoot;
     private readonly InputAction m_Golf_LobMode;
+    private readonly InputAction m_Golf_OK;
     public struct GolfActions
     {
         private @PlayerActions m_Wrapper;
@@ -245,6 +278,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_Golf_Aim;
         public InputAction @Shoot => m_Wrapper.m_Golf_Shoot;
         public InputAction @LobMode => m_Wrapper.m_Golf_LobMode;
+        public InputAction @OK => m_Wrapper.m_Golf_OK;
         public InputActionMap Get() { return m_Wrapper.m_Golf; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +297,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @LobMode.started -= m_Wrapper.m_GolfActionsCallbackInterface.OnLobMode;
                 @LobMode.performed -= m_Wrapper.m_GolfActionsCallbackInterface.OnLobMode;
                 @LobMode.canceled -= m_Wrapper.m_GolfActionsCallbackInterface.OnLobMode;
+                @OK.started -= m_Wrapper.m_GolfActionsCallbackInterface.OnOK;
+                @OK.performed -= m_Wrapper.m_GolfActionsCallbackInterface.OnOK;
+                @OK.canceled -= m_Wrapper.m_GolfActionsCallbackInterface.OnOK;
             }
             m_Wrapper.m_GolfActionsCallbackInterface = instance;
             if (instance != null)
@@ -276,6 +313,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @LobMode.started += instance.OnLobMode;
                 @LobMode.performed += instance.OnLobMode;
                 @LobMode.canceled += instance.OnLobMode;
+                @OK.started += instance.OnOK;
+                @OK.performed += instance.OnOK;
+                @OK.canceled += instance.OnOK;
             }
         }
     }
@@ -285,5 +325,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnLobMode(InputAction.CallbackContext context);
+        void OnOK(InputAction.CallbackContext context);
     }
 }

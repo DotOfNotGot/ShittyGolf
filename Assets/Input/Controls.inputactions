@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OK",
+                    "type": "Button",
+                    "id": "7601271b-7151-4d4d-82d4-296cf4f1b19c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -141,6 +150,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "LobMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d88a39d9-cae4-4f65-92ee-ed4ed3fc01ae",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OK",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e474cbbb-4338-476e-a6f2-2faf3ae7eaa6",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OK",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
