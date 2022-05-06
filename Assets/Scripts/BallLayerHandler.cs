@@ -19,7 +19,8 @@ public class BallLayerHandler : MonoBehaviour
         other.gameObject.layer = layerOnTriggerEnter;
     }
 
-    // Changes layer back to the layer the other object entered with so that it can collide with the ground again.
+    // Changes layer back to the layer the other object entered with so that it
+    // can collide with the ground again.
     private void OnTriggerExit(Collider other)
     {
             other.gameObject.layer = layerOnTriggerExit;
