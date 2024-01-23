@@ -9,36 +9,34 @@ public class ObjectPool : MonoBehaviour
     public GameObject objectToPool;
 
     public int amountToPool;
-    private LineProjection lineProjection;
+
+    private Dictionary<GameObject, BallController> _ballControllersDict;
 
     private void Awake()
     {
-        SharedInstance = this;
+        if (!SharedInstance)
+        {
+            SharedInstance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        pooledObjects = new List<GameObject>();
+        _ballControllersDict = new Dictionary<GameObject, BallController>();
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        lineProjection = GetComponent<LineProjection>();
-        pooledObjects = new List<GameObject>();
-
-        GameObject tmp;
-        for (int i = 0; i < amountToPool; i++)
-        {
-            tmp = Instantiate(objectToPool);
-            tmp.SetActive(false);
-            pooledObjects.Add(tmp);
-        }
-
+        
     }
 
-    public GameObject GetPooledObject()
+    public GameObject GetPooledObject(int newPoolAmount)
     {
-        amountToPool = lineProjection.maxPhysicsFrameIterations;
         for (int i = 0; i < amountToPool; i++)
         {
-
             if (!pooledObjects[i].activeInHierarchy)
             {
                 return pooledObjects[i];
@@ -47,9 +45,30 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
-    // Update is called once per frame
-    void Update()
+    public BallController GetPooledBallController(GameObject key)
     {
-        
+        if (_ballControllersDict.ContainsKey(key))
+        {
+            return _ballControllersDict[key];
+        }
+
+        return null;
+    }
+    
+    public void PopulatePool(int amount)
+    {
+        amountToPool = amount;
+        GameObject tmp;
+        for (int i = 0; i < amount; i++)
+        {
+            tmp = Instantiate(objectToPool);
+            tmp.SetActive(false);
+            pooledObjects.Add(tmp);
+            BallController tmpBallController = tmp.GetComponent<BallController>();
+            if (tmpBallController)
+            {
+                _ballControllersDict.Add(tmp, tmpBallController);
+            }
+        }
     }
 }

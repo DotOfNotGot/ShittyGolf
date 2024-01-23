@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public void TurnHandler(int currentIndex)
     {
-        if (currentIndex + 1 != mainMenuHandler.mode)
+        if (mainMenuHandler && currentIndex + 1 != mainMenuHandler.mode)
         {
             currentTurnIndex = currentIndex + 1;
         }

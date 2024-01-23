@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427135, b: 0.56452316, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -199,6 +200,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!4 &398826141 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3254756116625523588, guid: 39210d0557d1652489146430825b6dd6, type: 3}
@@ -435,7 +437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 425105656258227040, guid: 1c57fb9de82e648439e35e21f45ebeac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 65.9
+      value: 68.76
       objectReference: {fileID: 0}
     - target: {fileID: 425105656258227040, guid: 1c57fb9de82e648439e35e21f45ebeac, type: 3}
       propertyPath: m_LocalPosition.y
@@ -443,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 425105656258227040, guid: 1c57fb9de82e648439e35e21f45ebeac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -304.1
+      value: -301.5
       objectReference: {fileID: 0}
     - target: {fileID: 425105656258227040, guid: 1c57fb9de82e648439e35e21f45ebeac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -859,6 +861,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -891,6 +894,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 516207052}
     m_Modifications:
+    - target: {fileID: 144914556, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
+      propertyPath: m_Center.y
+      value: -0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135314048081882849, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.456
+      objectReference: {fileID: 0}
     - target: {fileID: 6672999146839859480, guid: 6a6b71803c4327d49857c99389465cb8, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1385,6 +1396,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3814825285145291176, guid: e1a7397edae844b8fb6d4ad05243a91c, type: 3}
       propertyPath: m_Name
+      value: DeathZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 3814825285145291176, guid: e1a7397edae844b8fb6d4ad05243a91c, type: 3}
+      propertyPath: m_TagString
       value: DeathZone
       objectReference: {fileID: 0}
     m_RemovedComponents: []

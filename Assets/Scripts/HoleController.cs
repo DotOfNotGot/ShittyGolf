@@ -80,7 +80,7 @@ public class HoleController : MonoBehaviour
             position.z++;
         }
 
-        transform.position = position;
+        // transform.position = position;
 
     }
 

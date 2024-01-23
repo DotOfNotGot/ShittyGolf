@@ -135,6 +135,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 1
@@ -408,6 +409,7 @@ MonoBehaviour:
   isTurningRight: 0
   shouldAdd: 0
   shouldLob: 0
+  lastStillPosition: {x: 0, y: 0, z: 0}
   ballPrefab: {fileID: 9018353639588637972}
   lobAngle: 45
 --- !u!114 &4558459346537034411

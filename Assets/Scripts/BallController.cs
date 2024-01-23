@@ -19,6 +19,8 @@ public class BallController : MonoBehaviour
     private float rotationSpeed;
     private Vector3 direction;
 
+    private float _currentMaxForce;
+    
     private GameManager gameManager;
 
     public float barFillAmount;
@@ -41,6 +43,7 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private bool shouldLob;
     private bool shouldSwitchTurn;
+    private bool shouldCalculateLine = true;
 
     public Vector3 lastStillPosition;
 
@@ -59,27 +62,13 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        forceBarCanvas = GetComponentInChildren<Canvas>();
-        forceBarCanvas.enabled = false;
-        oldEulerAngles = transform.rotation.eulerAngles;
-        oldTransformPosition = transform.position;
-        ballRb = GetComponent<Rigidbody>();
-        gameManager = FindObjectOfType<GameManager>();
-        lineProjection = FindObjectOfType<LineProjection>();
-        lineStartPosition = FindObjectOfType<BallLineRendererPosition>();
-
-        if (FindObjectsOfType<BallController>().Length > 1)
-        {
-            playerIndex = 1;
-        }
-
+        OnEnable();
     }
 
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
         if (!win && oldTransformPosition == transform.position && gameManager.currentTurnIndex == playerIndex)
         {
             if (isTurningLeft)
@@ -105,8 +94,15 @@ public class BallController : MonoBehaviour
                 gameManager.TurnHandler(playerIndex);
                 shouldSwitchTurn = false;
             }
-            BallShoot();
+
+            if (shouldCalculateLine)
+            {
+                lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * _currentMaxForce);
+                
+                shouldCalculateLine = !(isTurningLeft && isTurningRight);
+            }
             
+            BallShoot();
         }
         if (oldEulerAngles != transform.rotation.eulerAngles)
         {
@@ -146,7 +142,7 @@ public class BallController : MonoBehaviour
             }
             else if (!shouldAdd && shouldLob)
             {
-                actualForce += maxLobForce / forceDivider;
+                actualForce -= maxLobForce / forceDivider;
             }
 
         }
@@ -180,63 +176,71 @@ public class BallController : MonoBehaviour
 
         if (shootTime)
         {
-            Debug.Log("final" + actualForce);
+            Debug.Log("final " + actualForce);
             ballRb.velocity = transform.forward * actualForce;
             actualForce = 0.1f;
             shootTime = false;
             shouldSwitchTurn = true;
         }
 
-        // Checks if player is currently moving and if not renders a trajectoryline to show where player would go at the maxforce of their shot.
+        // Checks if player is currently moving and if not renders a trajectory line to show where player would go at the max force of their shot.
 
         if (oldTransformPosition == transform.position && !shouldSwitchTurn)
         {
-            lineProjection.gameObject.GetComponent<LineRenderer>().enabled = true;
+            lineProjection.EnableLine();
             lastStillPosition = transform.position;
-            if (!shouldLob)
-            {
-                lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * maxForce);
-            }
-            if (shouldLob)
-            {
-                lineProjection.SimulateTrajectory(ballPrefab, lineStartPosition.transform.position, lineStartPosition.transform.forward * maxLobForce);
-            }
         }
         else if(oldTransformPosition != transform.position || shouldSwitchTurn)
         {
-            lineProjection.gameObject.GetComponent<LineRenderer>().enabled = false;
+            lineProjection.DisableLine();
         }
 
     }
 
-    
-
     public void BallShootSimulation(Vector3 velocity)
     {
-        ballRb = GetComponent<Rigidbody>();
         ballRb.AddForce(velocity, ForceMode.Impulse);
+    }
+
+    private void HandleDeath()
+    {
+        transform.position = lastStillPosition;
+        ballRb.velocity = new Vector3(0, 0, 0);
+    }
+    
+    private void OnDisable()
+    {
+        ballRb.velocity = Vector3.zero;
+    }
+
+    private void OnEnable()
+    {
+        forceBarCanvas = GetComponentInChildren<Canvas>();
+        forceBarCanvas.enabled = false;
+        oldEulerAngles = transform.rotation.eulerAngles;
+        oldTransformPosition = transform.position;
+        ballRb = GetComponent<Rigidbody>();
+        gameManager = FindObjectOfType<GameManager>();
+        lineProjection = FindObjectOfType<LineProjection>();
+        lineStartPosition = FindObjectOfType<BallLineRendererPosition>();
+        _currentMaxForce = maxForce;
+        
+        if (FindObjectsOfType<BallController>().Length > 1)
+        {
+            playerIndex = 1;
+        }
     }
 
     public void AimInput(CallbackContext context)
     {
         if (oldTransformPosition == transform.position)
         {
-            if (context.ReadValue<float>() < 0)
+            isTurningLeft = context.ReadValue<float>() < 0;
+            isTurningRight = context.ReadValue<float>() > 0;
+           
+            if (context.ReadValue<float>() != 0)
             {
-                isTurningLeft = true;
-            }
-            else
-            {
-                isTurningLeft = false;
-            }
-
-            if (context.ReadValue<float>() > 0)
-            {
-                isTurningRight = true;
-            }
-            else
-            {
-                isTurningRight = false;
+                shouldCalculateLine = true;
             }
         }
         else
@@ -244,8 +248,6 @@ public class BallController : MonoBehaviour
             isTurningLeft = false;
             isTurningRight = false;
         }
-        
-
     }
 
     public void ShootButton(CallbackContext context)
@@ -268,11 +270,26 @@ public class BallController : MonoBehaviour
     {
         if (context.started && shouldLob)
         {
+            _currentMaxForce = maxForce;
             shouldLob = false;
         }
         else if (context.started && !shouldLob)
         {
+            _currentMaxForce = maxLobForce;
             shouldLob = true;
+        }
+
+        shouldCalculateLine = true;
+    }
+
+
+    public void OnTriggerEnter(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "DeathZone":
+                HandleDeath();
+                break;
         }
     }
 }

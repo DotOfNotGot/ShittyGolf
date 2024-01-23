@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class BallLineRendererPosition : MonoBehaviour
 {
-
-    private List<BallController> ballControllers;
-
     private GameManager gameManager;
     private MainMenuHandler mainMenuHandler;
     private PlayerSpawner playerSpawner;
@@ -14,7 +11,6 @@ public class BallLineRendererPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ballControllers = new List<BallController>(FindObjectsOfType<BallController>());
         gameManager = FindObjectOfType<GameManager>();
         mainMenuHandler = FindObjectOfType<MainMenuHandler>();
         playerSpawner = FindObjectOfType<PlayerSpawner>();

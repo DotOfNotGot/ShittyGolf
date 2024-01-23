@@ -21,14 +21,14 @@ public class PlayerSpawner : MonoBehaviour
     private bool shouldSpawn;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
 
         mainMenuHandler = FindObjectOfType<MainMenuHandler>();
 
         gameManager = FindObjectOfType<GameManager>();
 
-        if (mainMenuHandler.mode == 1)
+        if (!mainMenuHandler || mainMenuHandler.mode == 1)
         {
             GameObject newBall = (GameObject)Instantiate(ballPrefab, transform.position, Quaternion.identity);
             ballGOs.Add(newBall);

@@ -13,7 +13,6 @@ public class SceneTransitioner : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if (shouldTransition)
         {
             shouldTransition = false;
@@ -33,7 +32,6 @@ public class SceneTransitioner : MonoBehaviour
 
     public void OKButton(CallbackContext context)
     {
-
         shouldTransition = true;
     }
 
